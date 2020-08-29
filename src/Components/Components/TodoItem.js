@@ -47,34 +47,35 @@ class TodoItem extends Component {
             </div>
         </div>
         </div>
+        {/* //form detail */}
         <form className={this.state.active ? "content display-block" : "content hide-block"}>
-      <div className="top_content">
-        <input type="text" value={item.title} name="title" onChange={event => handleChange(event)} ref="reftitle"/>
-      </div>
-      <div className="center_content">
-        <label>Description</label>
-        <textarea rows="10" cols="100%" value={item.description} ref="refdesc" required></textarea>
-      </div>
-      <div className="bottom_content">
-        <div className="bottom_content---left">
-        <label>Due date</label>
-        <div className="icon_input">
-          <input type="date" value={item.date} min="2018-01-01" max="2018-12-31" ref="refdate" required></input>
-        </div>
-        </div>
-        <div className="bottom_content---right">
-          <label>Piority</label>
-          <select ref="refpior" value={item.piority}>
-            <option>Normal </option>
-            <option>Low</option>
-            <option>High</option>
-          </select>
-        </div>
-      </div>
-        <div className="button_content">
-          <button type="submit" onClick={() => handleUpdateItem()}>Update</button>
-        </div>
-    </form> 
+          <div className="top_content">
+            <input type="text" value={item.title} name="title" onChange={event => handleChange(event)} ref="reftitle"/>
+          </div>
+          <div className="center_content">
+            <label>Description</label>
+            <textarea rows="10" cols="100%" value={item.description} ref="refdesc" required></textarea>
+          </div>
+          <div className="bottom_content">
+            <div className="bottom_content---left">
+            <label>Due date</label>
+            <div className="icon_input">
+              <input type="date" value={item.date} min="2018-01-01" max="2018-12-31" ref="refdate" required></input>
+            </div>
+            </div>
+            <div className="bottom_content---right">
+              <label>Piority</label>
+              <select ref="refpior" value={item.piority}>
+                <option>Normal </option>
+                <option>Low</option>
+                <option>High</option>
+              </select>
+            </div>
+          </div>
+          <div className="button_content">
+            <button type="submit" onClick={() => handleUpdateItem()}>Update</button>
+          </div>
+        </form>
       </div>
     )
   }
