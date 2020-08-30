@@ -9,9 +9,9 @@ class TodoList extends Component {
         <div className="header_top">
           <h4>To Do List</h4>
           {
-            entries.map( (item,key) => {
+            entries.map( (item) => {
               return (
-                <TodoItem item={item} key={key} deleteItem={deleteItem} updateItem={updateItem}/>
+                <TodoItem item={item} deleteItem={deleteItem} updateItem={updateItem}/>
               )
             })
           }

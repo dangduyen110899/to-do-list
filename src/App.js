@@ -9,12 +9,14 @@ class App extends Component {
     this.state = {
       items: [
         {
+          id: 1,
           title: "taskTitle1",
           description: "taskDesc",
           date: "taskDate",
           piority: "taskPior"
         },
         {
+          id: 2,
           title: "taskTitle2",
           description: "taskDesc",
           date: "taskDate",
@@ -26,7 +28,8 @@ class App extends Component {
 
   // add new tab into todolist
   addItem = (item) => {
-    const items = [...this.state.items, item]
+    const itemNew = { ...item, id: this.state.items.length }
+    const items = [...this.state.items, itemNew]
     this.setState({
       items,
     },() => {
@@ -34,8 +37,13 @@ class App extends Component {
     })
   }
 
-  updateItem = (item) => {
-    const items = [...this.state.items, item]
+  updateItem = (itemUpdate) => {
+    const items = this.state.items;
+    items.map( (item,index) => {
+      if(itemUpdate.id === item.id){
+        items.splice(item.id,1,itemUpdate)
+      }
+    })
     this.setState({
       items,
     },() => {
@@ -44,11 +52,10 @@ class App extends Component {
   }
 
   //delete item
-  deleteItem = (titleItem) => {
-    console.log(titleItem)
+  deleteItem = (idItem) => {
     const items = this.state.items
-    items.forEach( (element,index) => {
-      if(element.title == titleItem) {
+    items.forEach( (item,index) => {
+      if(item.id == idItem) {
         items.splice(index,1)
       }
     });
@@ -56,13 +63,14 @@ class App extends Component {
       localStorage.setItem('items', JSON.stringify(this.state.items))
     })
   }
-  //luu vao localstorage
+  //lay tu localstorage
   componentDidMount() {
     const items = localStorage.getItem('items');
     if (items) {
       this.setState({ items: JSON.parse(items)});
     }
   }
+
   render() {
     return (
       <div>
@@ -75,6 +83,5 @@ class App extends Component {
   }
 }
 
-
-
 export default App
+

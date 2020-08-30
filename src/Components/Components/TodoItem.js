@@ -8,14 +8,7 @@ class TodoItem extends Component {
     }
   }
   render() {
-    const {key, item} = this.props
-    //update item
-    const handleChange = (event) => {
-      event.persist();
-      let value = event.target.value;
-      let itemu =  { ...item,  [event.target.name]: value }
-      this.props.item = itemu
-    }
+    const {item} = this.props
 
     const handleUpdateItem = () => {
       const taskTitle = this.refs.reftitle.value;
@@ -23,6 +16,7 @@ class TodoItem extends Component {
       const taskDate = this.refs.refdate.value;
       const taskPior = this.refs.refpior.value;
       const todo = {
+        id: item.id,
         title: taskTitle,
         description: taskDesc,
         date: taskDate,
@@ -32,7 +26,7 @@ class TodoItem extends Component {
     }
 
     return (
-      <div key={key}>
+      <div key={item.id}>
         <div className="list_text" >
           <div className="list_text---left">
               <span><i class="fa fa-check-square-o" aria-hidden="true"></i></span>
@@ -43,29 +37,29 @@ class TodoItem extends Component {
                 <button onClick={() => this.setState({active: !this.state.active})}>Detail</button>
             </div>
             <div className="remove_button">
-                <button onClick={() => this.props.deleteItem(item.title)}>Remove</button>
+                <button onClick={() => this.props.deleteItem(item.id)}>Remove</button>
             </div>
         </div>
         </div>
         {/* //form detail */}
         <form className={this.state.active ? "content display-block" : "content hide-block"}>
           <div className="top_content">
-            <input type="text" value={item.title} name="title" onChange={event => handleChange(event)} ref="reftitle"/>
+            <input type="text" defaultValue={item.title} name="title" ref="reftitle"/>
           </div>
           <div className="center_content">
             <label>Description</label>
-            <textarea rows="10" cols="100%" value={item.description} ref="refdesc" required></textarea>
+            <textarea rows="10" cols="100%" defaultValue={item.description} ref="refdesc" required></textarea>
           </div>
           <div className="bottom_content">
             <div className="bottom_content---left">
             <label>Due date</label>
             <div className="icon_input">
-              <input type="date" value={item.date} min="2018-01-01" max="2018-12-31" ref="refdate" required></input>
+              <input type="date" defaultValue={item.date} ref="refdate"></input>
             </div>
             </div>
             <div className="bottom_content---right">
               <label>Piority</label>
-              <select ref="refpior" value={item.piority}>
+              <select ref="refpior" defaultValue={item.piority}>
                 <option>Normal </option>
                 <option>Low</option>
                 <option>High</option>
