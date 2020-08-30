@@ -1,87 +1,63 @@
-import React, { Component } from 'react'
+import React, { useEffect, useState } from 'react'
 import './App.css'
-import NewTodo from './Components/Components/NewTodo';
-import TodoList from './Components/Components/TodoList';
+import NewTodo from './components/NewTodo'
+import TodoList from './components/TodoList'
 
-class App extends Component {
-  constructor() {
-    super();
-    this.state = {
-      items: [
-        {
-          id: 1,
-          title: "taskTitle1",
-          description: "taskDesc",
-          date: "taskDate",
-          piority: "taskPior"
-        },
-        {
-          id: 2,
-          title: "taskTitle2",
-          description: "taskDesc",
-          date: "taskDate",
-          piority: "taskPior"
-        }
-      ]
-    }
+const App = () => {
+
+  const [items, setItems] = useState([])
+
+  // add new todo into todolist
+  const addItem = (item) => {
+    const itemNew = { ...item, id: items.length }
+    const itemsNew = [...items, itemNew]
+    setItems(itemsNew)
+    localStorage.setItem('items', JSON.stringify(itemsNew))
   }
 
-  // add new tab into todolist
-  addItem = (item) => {
-    const itemNew = { ...item, id: this.state.items.length }
-    const items = [...this.state.items, itemNew]
-    this.setState({
-      items,
-    },() => {
-      localStorage.setItem('items', JSON.stringify(this.state.items))
-    })
-  }
-
-  updateItem = (itemUpdate) => {
-    const items = this.state.items;
-    items.map( (item,index) => {
+  // update todo into todolist
+  const updateItem = (itemUpdate) => {
+    const itemsNew = [...items]
+    itemsNew.map( (item,index) => {
       if(itemUpdate.id === item.id){
-        items.splice(item.id,1,itemUpdate)
+        itemsNew.splice(index,1,itemUpdate)
       }
     })
-    this.setState({
-      items,
-    },() => {
-      localStorage.setItem('items', JSON.stringify(this.state.items))
-    })
+    setItems(itemsNew)
+    localStorage.setItem('items', JSON.stringify(itemsNew))
   }
 
   //delete item
-  deleteItem = (idItem) => {
-    const items = this.state.items
-    items.forEach( (item,index) => {
-      if(item.id == idItem) {
-        items.splice(index,1)
+  const deleteItem = (idItem) => {
+    const itemsNew = [...items]
+    itemsNew.forEach((item,index) => {
+      if(item.id === idItem) {
+        itemsNew.splice(index,1)
       }
-    });
-    this.setState({items}, () => {
-      localStorage.setItem('items', JSON.stringify(this.state.items))
     })
-  }
-  //lay tu localstorage
-  componentDidMount() {
-    const items = localStorage.getItem('items');
-    if (items) {
-      this.setState({ items: JSON.parse(items)});
-    }
+    setItems(itemsNew)
+    localStorage.setItem('items', JSON.stringify(itemsNew))
   }
 
-  render() {
-    return (
-      <div>
-        <div className="left_right">
-          <NewTodo addItem={this.addItem} />
-          <TodoList entries={this.state.items} deleteItem={this.deleteItem} updateItem={this.updateItem}/>
-        </div>
+  //save localstorage
+  useEffect(()=> {
+    const items = localStorage.getItem('items')
+    if (items) {
+      setItems(JSON.parse(items))
+    }
+  },[])
+
+  return (
+    <div>
+      <div className="left_right">
+        <NewTodo addItem={addItem} />
+        <TodoList
+          entries={items}
+          deleteItem={deleteItem}
+          updateItem={updateItem} />
       </div>
-    )
-  }
+    </div>
+  )
 }
 
 export default App
-
